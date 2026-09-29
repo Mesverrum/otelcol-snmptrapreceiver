@@ -1,0 +1,23 @@
+# Minimal OpenTelemetry Collector Builder (ocb) manifest that includes this receiver.
+#
+#   go install go.opentelemetry.io/collector/cmd/builder@v0.160.0
+#   builder --config builder-config.yaml
+#   ./dist/otelcol-snmptrap --config example-config.yaml
+#
+# To build from a local checkout instead of a tagged release, uncomment the
+# replaces block at the bottom.
+
+dist:
+  name: otelcol-snmptrap
+  description: OpenTelemetry Collector with the SNMP trap receiver
+  output_path: ./dist
+
+receivers:
+  - gomod: github.com/Mesverrum/otelcol-snmptrapreceiver v0.1.0
+
+exporters:
+  - gomod: go.opentelemetry.io/collector/exporter/debugexporter v0.160.0
+  - gomod: go.opentelemetry.io/collector/exporter/otlphttpexporter v0.160.0
+
+# replaces:
+#   - github.com/Mesverrum/otelcol-snmptrapreceiver => ./

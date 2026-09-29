@@ -1,0 +1,9 @@
+/dist/
+/bin/
+*.exe
+*.test
+*.out
+coverage*.txt
+.vscode/
+.idea/
+.cursor/

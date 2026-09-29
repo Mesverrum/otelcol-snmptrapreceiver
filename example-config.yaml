@@ -1,0 +1,36 @@
+# Collector config for a collector built with builder-config.yaml.
+# Every receiver setting is listed with its default so you can copy and edit.
+
+receivers:
+  snmptrap:
+    # UDP bind. Privileged :162 needs CAP_NET_BIND_SERVICE or a DNAT rule.
+    listen_address: 0.0.0.0:1620
+    # v1/v2c community allowlist. Empty accepts every community.
+    communities: []
+    # Put the community string on the log record.
+    include_community: false
+    # Drop traps whose trap OID did not resolve through the loaded MIBs.
+    drop_undefined: false
+    # Directories of SMI/MIB files for gosmi name enrichment. Fail-open.
+    mib_paths: []
+    # Extra attributes stamped on every log record.
+    attributes:
+      job: snmptrap
+    # Optional single USM user. When set the listener is v3-only.
+    # v3:
+    #   user: trapuser
+    #   security_level: authPriv   # noAuthNoPriv | authNoPriv | authPriv
+    #   auth_protocol: SHA256      # MD5 | SHA | SHA224 | SHA256 | SHA384 | SHA512
+    #   auth_password: ${env:SNMP_AUTH_PASSWORD}
+    #   priv_protocol: AES         # DES | AES | AES192 | AES192C | AES256 | AES256C
+    #   priv_password: ${env:SNMP_PRIV_PASSWORD}
+
+exporters:
+  debug:
+    verbosity: detailed
+
+service:
+  pipelines:
+    logs:
+      receivers: [snmptrap]
+      exporters: [debug]
